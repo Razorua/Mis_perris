@@ -45,7 +45,13 @@ input{
 /******************************************************/
 
 .btn-registrar{
-    background: red;
-    color: white;
+    background: tomato;
+    color: rgb(230, 223, 223);
     margin: auto;
-}    
+} 
+
+.btn-accion{
+    background: orange;
+    color: rgb(54, 50, 50);
+    margin: auto;
+} 

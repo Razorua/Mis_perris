@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/fontello.css">
     <link rel="stylesheet" href="css/formulario.css">
+    <script src="js/sweetalert2.all.min.js"></script>
 
 </head>
 
@@ -47,29 +48,70 @@
         </section>
 
         <section id="formulario">
-            <form class="form-registro" action="" method="post">
+            <form class="form-registro" action="" method="post" onsubmit="return validarFormulario">
 
                 <h2 class="form-titulo">Creacion de cuenta de usuario</h2>
                 <div class="contenedor-input">
-                    <input class="col-sm" type="text" name="txtRut" id="txtRut" placeholder="Ingrese rut">
-                    <input class="col-sm" type="text" name="txtNombreCompleto" id="txtNombreCompleto" placeholder="Ingrese nombre y apellido">
-                    <input class="col-sm" type="date" name="txtFechanaci" id="">
-                    <input class="col-sm" type="email" name="txtemail" id="" placeholder="Ingrese email">
-                    <input class="col-sm" type="text" name="txtUsuario" id="" placeholder="Ingrese usuario">
-                    <input class="col-sm"type="password" name="txtPass" id="" placeholder="Ingrese password">
-                    <input class="col-xl" type="text" name="txtFono" id="" placeholder="Ingrese fono">
+                    <input class="col-sm" type="text" name="txtRut" id="txtRut" placeholder="Ingrese rut" required minlength="9" maxlength="10">
+                    <input class="col-sm" type="text" name="txtNombreCompleto" id="txtNombreCompleto" placeholder="Ingrese nombre y apellido" required minlength="5" maxlength="45" pattern="[A-Za-z ]+" title="solo letras">
+                    <input class="col-sm" type="date" name="txtFechaNaci" id="txtFechaNaci" required min="1990-01.01" max="2023-01-01">
+                    <input class="col-sm" type="email" name="txtemail" id="" placeholder="Ingrese email" required minlength="5">
+                    <input class="col-sm" type="text" name="txtUsuario" id="" placeholder="Ingrese usuario" required minlength="5" maxlength="12">
+                    <input class="col-sm"type="password" name="txtPass" id="" placeholder="Ingrese password" required minlength="8" maxlength="12">
+                    <input class="col-xl" type="text" name="txtFono" id="" placeholder="Ingrese fono" minlength="7">
 
-                    <input class="btn-registrar" type="submit" value="Registrar">
-                    <input class="btn-registrar" type="button" value="Validar Formulario"
+                    <input class="btn-registrar" type="submit" value="Registrar" 
                      onclick="validarFormulario()">
+                    <input class="btn-accion" type="button" value="grabar"
+                     onclick="grabar()">
+                    <input class="btn-accion" type="button" value="leer"
+                     onclick="leer()"> 
+                                         
                 </div>
             </form>
 
         </section>
-        <script src="js/scripts.js">
-            
+        <script src="js/scripts.js"></script>
+        <script src="js/Usuario.js"></script>
+        <script>
+            var arreglo = new Array();
+            var indice = 0;
+            function grabar(){
+                var rut = document.getElementById('txtRut').value;
+                var nombre = document.getElementById('txtNombreCompleto').value;
+                var fecha = document.getElementById('txtFechaNaci').value;
+                usu = new usuario();
+                usu.setRut(rut);
+                usu.setNombre(nombre);
+                usu.setFecha(fecha);
+                //alert(usu.imprimir());
+                arreglo[indice] = JSON.stringify(usu);
+                localStorage.setItem('registro',arreglo);
+                indice++;
+                alert('grabo');
+            }
+            function leer(){
+                var tabla ="<table border=1>";
+                tabla=tabla+"<tr> <td>Rut</td> <td>Nombre</td> <td>Fecha</td> </tr>";
+                var arreglo_temp = new Array();
+                var datos = localStorage.getItem('registro');
+                alert(datos);
+                datos=datos.split("},{").join("};{"); //replace all
+                alert(datos);
+                arreglo_temp = datos.split(";");
+                alert(arreglo_temp[0]);   
+                for (let index = 0; index < arreglo_temp.length; index++) {
+                    var registro = arreglo_temp[index];
+                    var usu = JSON.parse(registro);
+                    tabla=tabla+ "<tr> <td>"+usu.rut+"</td> <td>"+usu.nombre+"</td> <td>"+usu.fecha+"</td> </tr>"
+                }
+                tabla=tabla+"</table>"; 
+                document.getElementById('listado').innerHTML=tabla;
+            }
         </script>
-
+        <div id="listado">
+            
+        </div>
     </main>
 
     <footer>
