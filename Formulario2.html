@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="css/fontello.css">
     <link rel="stylesheet" href="css/formulario.css">
     <script src="js/sweetalert2.all.min.js"></script>
-    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <script src="lib/jquery.js"></script>
+    <script src="dist_jqv/jquery.validate.min.js"></script>
 </head>
 
 <body>
@@ -51,28 +53,77 @@
             $(document).ready(function() {
 
                 $("#btnGrabando").click(function() {
-                    grabar();
+                    alert('Funciona');
+                })
+
+                $("#formu").validate({
+                    rules:{
+                        txtRut:{
+                            required: true,
+                            minlength: 9,
+                            maxlength: 10
+                        },
+                        txtEmail:{
+                            required: true
+                        },
+                        txtPass1:{
+                            required: true,
+                            minlength: 5,
+                            maxlength: 15
+                        },
+                        txtPass2:{
+                            required: true,
+                            minlength: 5,
+                            maxlength: 15,
+                            equalTo: "#txtPass1"
+                        }
+                    },
+                    messages:{
+                        txtRut:{
+                            required: "Es necesario el rut",
+                            minlength: "Minimo 9 caracteres",
+                            maxlength: "Maximo 10"
+                        },
+                        txtEmail:{
+                            required: "Es requerido el email"
+                        },
+                        txtPass1:{
+                            required: "Necesita una Password",
+                            minlength: "Minimo password 5 caracteres",
+                            maxlength: "Maximo password 15 caracteres"
+                        },
+                        txtPass2:{
+                            required: "Necesita volver a ingresar la password",
+                            minlength: "Minimo 5 caracteres",
+                            maxlength: "Maximo 15 caracteres",
+                            equalTo: "Necesitan ser iguales"
+                        },
+                        txtFechaNaci:{
+                            required: "Es necesaria la fecha de nacimiento",
+                            min= "1990-01-01",
+                            max="2023-01-01"
+                        } 
+                    }
                 })
 
             });
         </script>
         <section id="formulario">
-            <form class="form-registro" action="" method="post" onsubmit="return validarFormulario()">
+            <form class="form-registro" id="formu" action="" method="post" onsubmit="return validarFormulario()">
 
                 <h2 class="form-titulo">Creacion de cuenta de usuario</h2>
                 <div class="contenedor-input">
-                    <input class="col-sm" type="text" name="txtRut" id="txtRut" placeholder="Ingrese rut" required minlength="9" maxlength="10">
-                    <input class="col-sm" type="text" name="txtNombreCompleto" id="txtNombreCompleto" placeholder="Ingrese nombre y apellido" required minlength="5" maxlength="45" pattern="[A-Za-z ]+" title="solo letras">
-                    <input class="col-sm" type="date" name="txtFechaNaci" id="txtFechaNaci" required min="1990-01.01" max="2023-01-01">
-                    <input class="col-sm" type="email" name="txtemail" id="" placeholder="Ingrese email" required minlength="5">
-                    <input class="col-sm" type="text" name="txtUsuario" id="" placeholder="Ingrese usuario" required minlength="5" maxlength="12">
-                    <input class="col-sm"type="password" name="txtPass" id="" placeholder="Ingrese password" required minlength="8" maxlength="12">
-                    <input class="col-xl" type="text" name="txtFono" id="" placeholder="Ingrese fono" minlength="7">
+                    <input class="col-xl" type="text" name="txtRut" id="txtRut" placeholder="Ingrese rut">
+                    <input class="col-xl" type="text" name="txtNombreCompleto" id="txtNombreCompleto" placeholder="Ingrese nombre y apellido" required minlength="5" maxlength="45" pattern="[A-Za-z ]+" title="solo letras">
+                    <input class="col-xl" type="date" name="txtFechaNaci" id="txtFechaNaci" required min="1990-01-01" max="2023-01-01">
+                    <input class="col-xl" type="email" name="txtEmail" id="txtEmail" placeholder="Ingrese email" >
+                    <input class="col-xl" type="text" name="txtUsuario" id="txtUsuario" placeholder="Ingrese usuario" required minlength="5" maxlength="12">
+                    <input class="col-xl"type="password" name="txtPass1" id="txtPass1" placeholder="Ingrese password" >
+                    <input class="col-xl"type="password" name="txtPass2" id="txtPass2" placeholder="Ingrese nuevamente la password" >
+                    <input class="col-xl" type="text" name="txtFono" id="txtFono" placeholder="Ingrese fono" minlength="7">
 
-                    <input class="btn-registrar" type="submit" value="Registrar" onclick="validarFormulario()">
-                    <input class="btn-accion" type="button" value="Grabar" onclick="grabar()">
-                    <input class="btn-accion" type="button" value="Leer" onclick="leer()"> 
-                    <input class="btn-accion" type="button" value="Grabando" id="btnGrabando">                     
+                    <input class="btn-registrar" type="submit" value="Registrar">
+                    <input class="btn-accion" type="reset" value="Limpiar">                       
                 </div>
             </form>
 
@@ -115,9 +166,7 @@
                 document.getElementById('listado').innerHTML=tabla;
             }
         </script>
-        <div id="listado">
-            
-        </div>
+        
     </main>
 
     <footer>
@@ -125,7 +174,7 @@
             <p>Mis perris - Desarrollo web</p>
         </div>
     </footer>
-    <script src="dist/js/lightbox-plus-jquery.js"></script>
+    
 </body>
 
 </html>
